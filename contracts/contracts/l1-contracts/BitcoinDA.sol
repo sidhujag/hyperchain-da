@@ -11,7 +11,7 @@ contract BitcoinDAL1DAValidator is IL1DAValidator {
         uint256, // _chainId
         bytes32, // _l2DAValidatorOutputHash
         bytes calldata _operatorDAInput,
-        uint256 // maxBlobsSupported
+        uint256 maxBlobsSupported
     ) external override returns (L1DAValidatorOutput memory output) {
         // For BitcoinDA, we expect the operator to just provide the data for us.
         // We don't need to do any checks with regard to the l2DAValidatorOutputHash.
@@ -19,8 +19,9 @@ contract BitcoinDAL1DAValidator is IL1DAValidator {
 
         bytes32 stateDiffHash = abi.decode(_operatorDAInput, (bytes32));
         _verifyBitcoinDA(stateDiffHash);
-        // The rest of the fields that relate to blobs are empty.
         output.stateDiffHash = stateDiffHash;
+        output.blobsLinearHashes = new bytes32[](maxBlobsSupported);
+        output.blobsOpeningCommitments = new bytes32[](maxBlobsSupported);
     }
 
     function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
