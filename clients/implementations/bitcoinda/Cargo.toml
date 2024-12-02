@@ -20,6 +20,7 @@ zksync_env_config.workspace = true
 zksync_object_store.workspace = true
 zksync_config.workspace = true
 zksync_types.workspace = true
+flate2.workspace = true
 zksync_da_client.workspace = true
 tokio.workspace = true
 da_utils.workspace = true
