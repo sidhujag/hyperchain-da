@@ -19,7 +19,9 @@ contract BitcoinDAL1DAValidator is IL1DAValidator {
 
         bytes32 stateDiffHash = abi.decode(_operatorDAInput, (bytes32));
         _verifyBitcoinDA(stateDiffHash);
+        // The rest of the fields that relate to blobs are empty.
         output.stateDiffHash = stateDiffHash;
+
         output.blobsLinearHashes = new bytes32[](maxBlobsSupported);
         output.blobsOpeningCommitments = new bytes32[](maxBlobsSupported);
     }
