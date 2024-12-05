@@ -66,7 +66,7 @@ impl DataAvailabilityClient for BitcoinDAClient {
         data: Vec<u8>,
     ) -> Result<DispatchResponse, DAError> {
         // hash the blob
-        let hash = keccak256(data);
+        let hash = keccak256(&data);
         // send blob to GCS
         if let Err(err) = self
             .object_store
@@ -88,19 +88,8 @@ impl DataAvailabilityClient for BitcoinDAClient {
         &self,
         _blob_id: &str,
     ) -> anyhow::Result<Option<InclusionData>, DAError> {
-        if let Err(err) = self
-        .object_store
-        .get::<StorablePubdata>(_blob_id)
-        .await
-    {
-        if let zksync_object_store::ObjectStoreError::KeyNotFound(_) = err {
-            return Ok(None);
-        }
-
-        return Err(DAError {
-            is_retriable: err.is_retriable(),
-            error: anyhow::Error::from(err),
-        });
+        // return the hash of the pubdata which accompanied with the uncompressed state diff hash should enable us to recreate output hash from validatePubData
+        Ok(Some(InclusionData { data: _blob_id.as_bytes().to_vec() }))
     }
 
     // Using default here because we don't get any inclusion data from object store, thus
