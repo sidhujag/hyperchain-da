@@ -92,11 +92,6 @@ impl DataAvailabilityClient for BitcoinDAClient {
         Ok(Some(InclusionData { data: _blob_id.as_bytes().to_vec() }))
     }
 
-    // Using default here because we don't get any inclusion data from object store, thus
-    // there's nothing to check on L1.
-    return Ok(Some(InclusionData::default()));
-    }
-
     fn clone_boxed(&self) -> Box<dyn DataAvailabilityClient> {
         Box::new(self.clone())
     }
