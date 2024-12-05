@@ -34,7 +34,7 @@ impl DataAvailabilityClient for BitcoinDAClient {
         _: u32, // batch_number
         data: Vec<u8>,
     ) -> Result<types::DispatchResponse, types::DAError> {
-        if data.len() > Self::MAX_BLOB_SIZE {
+        if data.len() > BitcoinDAClient::MAX_BLOB_SIZE {
             return Err(types::DAError::InvalidData(
                 "Blob size exceeds the maximum limit".to_string(),
             ));
@@ -62,7 +62,7 @@ impl DataAvailabilityClient for BitcoinDAClient {
     }
 
     fn blob_size_limit(&self) -> Option<usize> {
-        Some(Self::MAX_BLOB_SIZE)
+        Some(BitcoinDAClient::MAX_BLOB_SIZE)
     }
 }
 
